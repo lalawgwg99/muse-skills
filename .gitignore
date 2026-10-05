@@ -1,0 +1,8 @@
+.env
+*.env
+*-secret*
+*credentials*
+*.mp4
+*.gif
+__pycache__/
+*.pyc
