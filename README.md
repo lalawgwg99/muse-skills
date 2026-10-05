@@ -1,4 +1,4 @@
-# muse-skills — 榮德的 AI 技能網
+# muse-skills — 技能網
 
 每個 skill 是一個可重用的能力模組；[SKILL_NET.md](SKILL_NET.md) 是整張網：
 節點（skill）＋ 邊（互補 / fallback / 工作流）＋ 高頻迴路。
