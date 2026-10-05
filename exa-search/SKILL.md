@@ -34,7 +34,7 @@ curl -s -X POST https://api.exa.ai/contents \
 ```
 
 ## Auth
-Key 是榮德的 Exa 免費版（每月 1000 次額度）。他 2026-10-05 明確說可以直接用、可以記住。用完額度就停手並告訴他。
+使用 Exa 免費版（每月 1000 次額度）。API key 請自行申請，存在 Secure Vault，不進 repo、不寫記憶。
 
 ## Operating Rules
 1. 每次搜尋約 $0.005–0.01 美元，省著用：先想好 query，一次要夠，不要來回試。
