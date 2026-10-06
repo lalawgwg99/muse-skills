@@ -37,6 +37,7 @@
 - google-drive：檔案（照片、影片檔）
 - google-docs：文件
 - github：程式碼推送（TaiCalc、字研所、shift-fill）
+- cloudflare：Cloudflare API（DNS、網域 Registrar、Pages 自訂網域、SSL）【2026-10-07 新增：使用者接 `custom.cloudflare` 連接器＋親建 workspace skill；憑證存 Secure Vault，不存原始 Token／金鑰】
 - artifacts：網頁成品管理
 - plaid：銀行帳務
 
@@ -50,7 +51,7 @@
 - muse-feedback：問題回報
 
 ### 觀察中（未安裝，不列邊）
-- agent-reach：給 AI Agent 接網路能力的開源專案；評估中，使用者尚未點頭（目錄內尚無 SKILL.md）
+- agent-reach：給 AI Agent 接網路能力的開源專案；評估中（目錄內尚無 SKILL.md，未 pip install、未完成可用性驗證，不可記成已安裝）。2026-10-07 使用者定調「AI 工具獵人」全球擴張並授權「有構想就開發」，agent-reach 與該方向高度相關，仍待確認是否正式納入
 
 ---
 
@@ -78,6 +79,8 @@
 **資料互補**
 - google-sheets ↔ artifacts：外送資料雙棲，試算表存檔、網頁給師傅【2026-10-06 註：sheets 側暫斷，artifacts 單邊運作】
 - github → （Cloudflare Pages）：推送即部署，TaiCalc／字研所／shift-fill 固定這條
+- github ↔ cloudflare：github 推送管「程式碼→部署」，cloudflare 管「網域→DNS→SSL→上線」；新站流程＝cloudflare 先買網域／掛 Pages 自訂網域＋DNS，再 github 推碼生效【2026-10-07 實戰：carepilot1966.com 經 Registrar 購買＋加到 care-calculator Pages 專案】
+- cloudflare 錢閘：網域購買、付費操作一律人工決定（2026-10-07 是使用者親自買 carepilot1966.com），skill 只做技術執行
 - google-drive ↔ media-library：大檔案走 drive，常用照片走 media-library
 
 **跨層 fallback**
@@ -96,7 +99,7 @@
 3. **X 經營**：social.search/x-post-reader 找話題 → exa-search 補背景 → 寫文 → 發布
 4. **柴犬圖卡**：文案 → image-search 找參考 → media 生成 → threads 發布 → 數據回流
 5. **外送單**：照片轉錄 → 排序 → artifacts 網頁版 ＋ LINE 文字版（文字版 = 他的查詢庫）
-6. **網站 SEO**：exa-search 長尾關鍵字 → 寫文 → github 推送 → Search Console 數據回流（每週跟他要）
+6. **網站 SEO**：exa-search 長尾關鍵字 → 寫文 → github 推送 → cloudflare（自訂網域／DNS／SSL 上線） → Search Console 數據回流（每週跟他要）
 7. **說書／短劇影片**：選書 → exa-search 找資料 → muse-video 策劃 → tts 配音 → media.generate_image 分鏡 → ffmpeg 成片 → 發布【2026-10-01 短劇實測驗證此鏈】
 
 ## 織網原則
