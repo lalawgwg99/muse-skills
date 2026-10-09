@@ -46,6 +46,7 @@
 
 ### 系統層
 - skill-creator：建新 skill（織網的梭子）
+- openrouter：免費 AI 模型池（:free only，絕不動帳戶餘額；每日 1000 次免費額度）。機械性批量工作（初篩、翻譯、摘要、分類）的便宜算力；主力模型每天約 06:24 由 `openrouter-free-model-scan` 排程掃描更新 `state/free-model.json`（動態路由，不寫死模型 ID）；憑證走 Secure Vault（custom.openrouter），不存原始 key【2026-10-09 新建 skill；使用者立鐵律：只能用免費模型】【2026-10-10 實戰：nemotron 請求掛住逾時、gemma 上游 429 → 每日獵捕初篩改由主模型做，免費池不可用不硬等】
 - goals：目標追蹤
 - subscription-status：額度查詢
 - muse-feedback：問題回報
@@ -84,6 +85,14 @@
 - cloudflare 錢閘：網域購買、付費操作一律人工決定（2026-10-07 是使用者親自買 carepilot1966.com），skill 只做技術執行
 - google-drive ↔ media-library：大檔案走 drive，常用照片走 media-library
 
+**免費算力互補（openrouter）**
+- openrouter ↔ 主模型分工：機械性批量工作（初篩、翻譯、摘要、分類）自動走 :free 免費模型，不再逐次詢問；需要判斷、要品質的工作主模型自己做【2026-10-09 使用者確認成本原則】
+- openrouter → 每日獵捕初篩：skill-scan 第一層「相關」批量初判讀當天 free-model.json 走免費模型【2026-10-09 接上；2026-10-10 03:00 實戰：nemotron 請求掛住逾時（>9 分鐘）、gemma 上游 429 → 改由主模型自行初篩，「免費池不可用不硬等」fallback 真實觸發，未打擾使用者】
+- openrouter 鐵律：只用 :free（pricing 全 0）模型，絕不呼叫付費模型、不動帳戶餘額；key 只經 Secure Vault／env，不進檔案與 log
+- 免費模型不穩定是常態：名單會洗牌（2026-10-09 實測 gemma 回 429、llama-3.3-70b 回 404，只剩 nemotron 可用）；超時必須包住 headers＋body 全程（r.json() 也在 abort 內），重試不做乘法【2026-10-09 聖所實戰教訓】
+- 反向邊（不連網站）：三站 AI 助手（小算／小研／小伴）維持 Cloudflare Workers AI（Llama 3.1 8B），不接 OpenRouter——免費共享池限流會傷訪客體驗、便宜模型指令遵循較差可能破「只回本站相關問題」鐵律、key 塞進 Worker 多一個外洩面【2026-10-09 決定】
+- 聖所 AI 鏈路：OpenRouter :free 第一順位 → pollinations 免 key 備援 → 瀏覽器直連第三層【2026-10-09 實戰上線】
+
 **跨層 fallback**
 - 任何「要查 X」→ x-post-reader（不要用 exa-search 硬碰）
 - 任何「要即時」→ browser.search 對應 vertical（不要等 Exa 索引）
@@ -95,7 +104,7 @@
 
 ## 迴路 — 高頻工作流（端到端，含回流）
 
-1. **慢錢研究所每日**：exa-search／browser.search 選題（每日 07:00 選題補給排程）→ 寫作 → image-search 封面 → vocus 發布 → social-content-performance 看數據 → 回流選題【2026-10-08 吸收 genspark-claw super-research 輕量版驗證紀律：選題與品質紅線現含「關鍵主張開來源頁確認、關鍵數字兩獨立來源交叉驗證、衝突並陳、不確定標「目前已知」、驗證不過刪掉不寫」；整包未安裝、只取方法論】
+1. **慢錢研究所每日**：exa-search／browser.search 選題（每日 07:00 選題補給排程）→ 寫作 → image-search 封面 → vocus 發布 → social-content-performance 看數據 → 回流選題【2026-10-08 吸收 genspark-claw super-research 輕量版驗證紀律：選題與品質紅線現含「關鍵主張開來源頁確認、關鍵數字兩獨立來源交叉驗證、衝突並陳、不確定標「目前已知」、驗證不過刪掉不寫」；整包未安裝、只取方法論】【2026-10-09：方格子恢復全自動（A 帳號登入狀態正常）；ProseMirror 長文輸入損壞防呆已上（一次性貼全文＋貼後讀回驗證＋連兩次失敗停手請人工貼上），首次新流程尚待實跑驗證】
 2. **爆紅影片工廠**：social.search 找爆款 → muse-video 策劃 → tts 配音 → 發布 → 數據回流
 3. **X 經營**：social.search/x-post-reader 找話題 → exa-search 補背景 → 寫文 → 發布
 4. **柴犬圖卡**：文案 → image-search 找參考 → media 生成 → threads 發布 → 數據回流
