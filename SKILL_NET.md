@@ -74,12 +74,12 @@
 - tts → podcast：單段配音 vs 完整節目，看長度選
 
 **發布互補**
-- threads ↔ instagram ↔ facebook-cli：同一內容改寫多發，看平台調性【2026-10-06 註、10-07 複查：threads 帳號仍未連結（待 Meta 授權），改發環節由 instagram／facebook-cli 覆蓋】
+- threads ↔ instagram ↔ facebook-cli：同一內容改寫多發，看平台調性【2026-10-06 註、10-10 複查仍未連結（待 Meta 授權），改發環節由 instagram／facebook-cli 覆蓋】
 - social-content-performance → social.search：看數據 → 回頭找下一波爆款（迴路）
 - meta-ads：自然流量起不來時才考慮，不主動推
 
 **資料互補**
-- google-sheets ↔ artifacts：外送資料已遷至 GitHub（private repo 存檔）＋ Cloudflare Pages 網頁給師傅；試算表／GAS 查詢方案 10-04 已棄。google-sheets 連接器自 10-02 由使用者手動斷開、10-07 複查仍斷，不主動重連
+- google-sheets ↔ artifacts：外送資料已遷至 GitHub（private repo 存檔）＋ Cloudflare Pages 網頁給師傅；試算表／GAS 查詢方案 10-04 已棄。google-sheets 連接器自 10-02 由使用者手動斷開、10-10 複查仍斷，不主動重連
 - github → （Cloudflare Pages）：推送即部署，TaiCalc／字研所／shift-fill／外送頁 固定這條【2026-10-08 實戰：外送頁 private repo 推送後 Pages 自動部署成功】
 - github ↔ cloudflare：github 推送管「程式碼→部署」，cloudflare 管「網域→DNS→SSL→上線」；新站流程＝cloudflare 先買網域／掛 Pages 自訂網域＋DNS，再 github 推碼生效【2026-10-07 實戰：carepilot1966.com 經 Registrar 購買＋加到 care-calculator Pages 專案；含個資的頁面走 private repo，不公開原始碼】【2026-10-09 實戰：易問 Worker `iching-api` 正式服務一律配自訂網域路由（proxied DNS `yiwen-api.taicalc.com` → Worker route），不依賴 workers.dev——workers.dev 在本環境回 1042、使用者實機亦 Load failed，改正式網域路由後 POST /divine 端到端成功】
 - cloudflare 錢閘：網域購買、付費操作一律人工決定（2026-10-07 是使用者親自買 carepilot1966.com），skill 只做技術執行
@@ -87,7 +87,7 @@
 
 **免費算力互補（openrouter）**
 - openrouter ↔ 主模型分工：機械性批量工作（初篩、翻譯、摘要、分類）自動走 :free 免費模型，不再逐次詢問；需要判斷、要品質的工作主模型自己做【2026-10-09 使用者確認成本原則】
-- openrouter → 每日獵捕初篩：skill-scan 第一層「相關」批量初判讀當天 free-model.json 走免費模型【2026-10-09 接上；2026-10-10 03:00 實戰：nemotron 請求掛住逾時（>9 分鐘）、gemma 上游 429 → 改由主模型自行初篩，「免費池不可用不硬等」fallback 真實觸發，未打擾使用者】
+- openrouter → 每日獵捕初篩：skill-scan 第一層「相關」批量初判讀當天 free-model.json 走免費模型【2026-10-09 接上；2026-10-10 03:00 實戰：nemotron 請求掛住逾時（>9 分鐘）、gemma 上游 429 → 改由主模型自行初篩，「免費池不可用不硬等」fallback 真實觸發，未打擾使用者；2026-10-11 連兩天重演（nemotron 長請求 240s 逾時）→ 主模型自行初篩已成穩定 fallback；當日 21 新候選全屬已知排除類別，無新 skill 需織入】
 - openrouter 鐵律：只用 :free（pricing 全 0）模型，絕不呼叫付費模型、不動帳戶餘額；key 只經 Secure Vault／env，不進檔案與 log
 - 免費模型不穩定是常態：名單會洗牌（2026-10-09 實測 gemma 回 429、llama-3.3-70b 回 404，只剩 nemotron 可用）；超時必須包住 headers＋body 全程（r.json() 也在 abort 內），重試不做乘法【2026-10-09 聖所實戰教訓】
 - 反向邊（不連網站）：三站 AI 助手（小算／小研／小伴）維持 Cloudflare Workers AI（Llama 3.1 8B），不接 OpenRouter——免費共享池限流會傷訪客體驗、便宜模型指令遵循較差可能破「只回本站相關問題」鐵律、key 塞進 Worker 多一個外洩面【2026-10-09 決定】
