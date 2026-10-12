@@ -46,7 +46,7 @@
 
 ### 系統層
 - skill-creator：建新 skill（織網的梭子）
-- openrouter：免費 AI 模型池（:free only，絕不動帳戶餘額；每日 1000 次免費額度）。機械性批量工作（初篩、翻譯、摘要、分類）的便宜算力；主力模型每天約 06:24 由 `openrouter-free-model-scan` 排程掃描更新 `state/free-model.json`（動態路由，不寫死模型 ID）；憑證走 Secure Vault（custom.openrouter），不存原始 key【2026-10-09 新建 skill；使用者立鐵律：只能用免費模型】【2026-10-10 實戰：nemotron 請求掛住逾時、gemma 上游 429 → 每日獵捕初篩改由主模型做，免費池不可用不硬等】
+- openrouter：免費 AI 模型池（:free only，絕不動帳戶餘額；每日 1000 次免費額度）。機械性批量工作（初篩、翻譯、摘要、分類）的便宜算力；主力模型每天約 06:24 由 `openrouter-free-model-scan` 排程掃描更新 `state/free-model.json`（動態路由，不寫死模型 ID）；憑證走 Secure Vault（custom.openrouter），不存原始 key【2026-10-09 新建 skill；使用者立鐵律：只能用免費模型】【2026-10-10 實戰：nemotron 請求掛住逾時、gemma 上游 429 → 每日獵捕初篩改由主模型做，免費池不可用不硬等】【2026-10-11 品質分流：free-model.json 新增 `quality_model`＝nvidia/nemotron-3-ultra-550b-a55b:free——批量機械活走 Lightning 日常主力，要品質時走 quality_model；每日掃描重寫名單時保留既有 quality_model／quality_note 不洗掉（10-12 實測原樣保留）】
 - goals：目標追蹤
 - subscription-status：額度查詢
 - muse-feedback：問題回報
@@ -74,7 +74,7 @@
 - tts → podcast：單段配音 vs 完整節目，看長度選
 
 **發布互補**
-- threads ↔ instagram ↔ facebook-cli：同一內容改寫多發，看平台調性【2026-10-06 註、10-10 複查仍未連結（待 Meta 授權），改發環節由 instagram／facebook-cli 覆蓋】
+- threads ↔ instagram ↔ facebook-cli：同一內容改寫多發，看平台調性【2026-10-06 註、10-13 複查仍未連結（慢錢研究所 Threads／X 帳號待手機驗證建立，短貼文僅備稿未發；待 Meta 授權），改發環節由 instagram／facebook-cli 覆蓋】
 - social-content-performance → social.search：看數據 → 回頭找下一波爆款（迴路）
 - meta-ads：自然流量起不來時才考慮，不主動推
 
