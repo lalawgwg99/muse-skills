@@ -104,7 +104,7 @@
 
 ## 迴路 — 高頻工作流（端到端，含回流）
 
-1. **慢錢研究所每日**：exa-search／browser.search 選題（每日 07:00 選題補給排程）→ 寫作 → image-search 封面 → vocus 發布 → social-content-performance 看數據 → 回流選題【2026-10-08 吸收 genspark-claw super-research 輕量版驗證紀律：選題與品質紅線現含「關鍵主張開來源頁確認、關鍵數字兩獨立來源交叉驗證、衝突並陳、不確定標「目前已知」、驗證不過刪掉不寫」；整包未安裝、只取方法論】【2026-10-09：方格子恢復全自動（A 帳號登入狀態正常）；ProseMirror 長文輸入損壞防呆已上（一次性貼全文＋貼後讀回驗證＋連兩次失敗停手請人工貼上），首次新流程尚待實跑驗證】
+1. **慢錢研究所每日**：exa-search／browser.search 選題（每日 07:00 選題補給排程）→ 寫作 → image-search 封面 → vocus 發布 → social-content-performance 看數據 → 回流選題【2026-10-08 吸收 genspark-claw super-research 輕量版驗證紀律：選題與品質紅線現含「關鍵主張開來源頁確認、關鍵數字兩獨立來源交叉驗證、衝突並陳、不確定標「目前已知」、驗證不過刪掉不寫」；整包未安裝、只取方法論】【2026-10-09：方格子恢復全自動（A 帳號登入狀態正常）】【2026-10-14 更正：編輯器實為 Lexical 非 ProseMirror；fill 回傳 unknown 但實際延遲 1–2 分鐘才生效，驗證為空後補 type＝全文重複兩次（當日連毀 2 稿）。防呆＝只做 1 次 fill 後等待至少 2–3 分鐘再驗證，絕不在驗證為空後補輸入；驗證通過（開頭第一句＋結尾延伸閱讀＋無重複段落）才繼續封面＋發佈；連續 2 次草稿損壞即停手】
 2. **爆紅影片工廠**：social.search 找爆款 → muse-video 策劃 → tts 配音 → 發布 → 數據回流
 3. **X 經營**：social.search/x-post-reader 找話題 → exa-search 補背景 → 寫文 → 發布
 4. **柴犬圖卡**：文案 → image-search 找參考 → media 生成 → threads 發布 → 數據回流
