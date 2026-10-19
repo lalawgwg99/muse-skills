@@ -46,7 +46,7 @@
 
 ### 系統層
 - skill-creator：建新 skill（織網的梭子）
-- openrouter：免費 AI 模型池（:free only，絕不動帳戶餘額；每日 1000 次免費額度）。機械性批量工作（初篩、翻譯、摘要、分類）的便宜算力；主力模型每天約 06:24 由 `openrouter-free-model-scan` 排程掃描更新 `state/free-model.json`（動態路由，不寫死模型 ID）；憑證走 Secure Vault（custom.openrouter），不存原始 key【2026-10-09 新建 skill；使用者立鐵律：只能用免費模型】【2026-10-10 實戰：nemotron 請求掛住逾時、gemma 上游 429 → 每日獵捕初篩改由主模型做，免費池不可用不硬等】【2026-10-11 品質分流：free-model.json 新增 `quality_model`＝nvidia/nemotron-3-ultra-550b-a55b:free——批量機械活走 Lightning 日常主力，要品質時走 quality_model；每日掃描重寫名單時保留既有 quality_model／quality_note 不洗掉（10-12 實測原樣保留）】【2026-10-15：gemma 兩款連續第 7 天上游 429；or_api.py 寫死憑證路徑（templates/skill/bin）已修為現行 bin，不靠 PYTHONPATH 繞道也可跑】【2026-10-16：gemma 兩款連續第 8 天上游 429】【2026-10-18：gemma 兩款連續第 10 天上游 429；同日掃描主力仍為 nemotron lightning，ping 回 Pong!（約 48 秒，較昨日 200 秒恢復）】
+- openrouter：免費 AI 模型池（:free only，絕不動帳戶餘額；每日 1000 次免費額度）。機械性批量工作（初篩、翻譯、摘要、分類）的便宜算力；主力模型每天約 06:24 由 `openrouter-free-model-scan` 排程掃描更新 `state/free-model.json`（動態路由，不寫死模型 ID）；憑證走 Secure Vault（custom.openrouter），不存原始 key【2026-10-09 新建 skill；使用者立鐵律：只能用免費模型】【2026-10-10 實戰：nemotron 請求掛住逾時、gemma 上游 429 → 每日獵捕初篩改由主模型做，免費池不可用不硬等】【2026-10-11 品質分流：free-model.json 新增 `quality_model`＝nvidia/nemotron-3-ultra-550b-a55b:free——批量機械活走 Lightning 日常主力，要品質時走 quality_model；每日掃描重寫名單時保留既有 quality_model／quality_note 不洗掉（10-12 實測原樣保留）】【2026-10-15：gemma 兩款連續第 7 天上游 429；or_api.py 寫死憑證路徑（templates/skill/bin）已修為現行 bin，不靠 PYTHONPATH 繞道也可跑】【2026-10-16：gemma 兩款連續第 8 天上游 429】【2026-10-19：gemma 兩款多日上游 429，不再重 ping（沿用「不可用」結論）；同日掃描主力仍為 nemotron lightning，ping 回 Pong! 約 2.5 分鐘（較 10-18 的 48 秒變慢）】
 - goals：目標追蹤
 - subscription-status：額度查詢
 - muse-feedback：問題回報
@@ -80,7 +80,7 @@
 
 **資料互補**
 - google-sheets ↔ artifacts：外送資料已遷至 GitHub（private repo 存檔）＋ Cloudflare Pages 網頁給師傅；試算表／GAS 查詢方案 10-04 已棄。google-sheets 連接器自 10-02 由使用者手動斷開、10-10 複查仍斷，不主動重連
-- github → （Cloudflare Pages）：推送即部署，TaiCalc／字研所／shift-fill／外送頁 固定這條【2026-10-08 實戰：外送頁 private repo 推送後 Pages 自動部署成功】【2026-10-19：care-calculator 推送 45be5c5（機構月費口徑統一＋cms5/cms6 差異化第7批）成功，tsc/build/jest 全過，邊健康】
+- github → （Cloudflare Pages）：推送即部署，TaiCalc／字研所／shift-fill／外送頁 固定這條【2026-10-08 實戰：外送頁 private repo 推送後 Pages 自動部署成功】【2026-10-20：care-calculator 推送 f4bfb82 成功（tsc 0 error、build 靜態匯出、jest 114 全綠），Pages 自動部署，邊健康】
 - github ↔ cloudflare：github 推送管「程式碼→部署」，cloudflare 管「網域→DNS→SSL→上線」；新站流程＝cloudflare 先買網域／掛 Pages 自訂網域＋DNS，再 github 推碼生效【2026-10-07 實戰：carepilot1966.com 經 Registrar 購買＋加到 care-calculator Pages 專案；含個資的頁面走 private repo，不公開原始碼】【2026-10-09 實戰：易問 Worker `iching-api` 正式服務一律配自訂網域路由（proxied DNS `yiwen-api.taicalc.com` → Worker route），不依賴 workers.dev——workers.dev 在本環境回 1042、使用者實機亦 Load failed，改正式網域路由後 POST /divine 端到端成功】
 - cloudflare 錢閘：網域購買、付費操作一律人工決定（2026-10-07 是使用者親自買 carepilot1966.com），skill 只做技術執行
 - google-drive ↔ media-library：大檔案走 drive，常用照片走 media-library
@@ -104,7 +104,7 @@
 
 ## 迴路 — 高頻工作流（端到端，含回流）
 
-1. **慢錢研究所每日**：exa-search／browser.search 選題（每日 07:00 選題補給排程）→ 寫作 → image-search 封面 → vocus 發布 → social-content-performance 看數據 → 回流選題【2026-10-08 吸收 genspark-claw super-research 輕量版驗證紀律：選題與品質紅線現含「關鍵主張開來源頁確認、關鍵數字兩獨立來源交叉驗證、衝突並陳、不確定標「目前已知」、驗證不過刪掉不寫」；整包未安裝、只取方法論】【2026-10-09：方格子恢復全自動（A 帳號登入狀態正常）】【2026-10-14 更正：編輯器實為 Lexical 非 ProseMirror；fill 回傳 unknown 但實際延遲 1–2 分鐘才生效，驗證為空後補 type＝全文重複兩次（當日連毀 2 稿）。防呆＝只做 1 次 fill 後等待至少 2–3 分鐘再驗證，絕不在驗證為空後補輸入；驗證通過（開頭第一句＋結尾延伸閱讀＋無重複段落）才繼續封面＋發佈；連續 2 次草稿損壞即停手】【2026-10-15 新失敗模式：同樣單次 fill＋等 2–3 分鐘＋重載，內文仍 0 字完全未寫入（兩份全新草稿皆如此）——與 10/14「延遲後重複」不同，兩天兩種模式；重試前要換輸入打法，不要照舊再填】【2026-10-16 備援實證：fill 失效時換「第一份全新草稿＋單次 type 全文」一次成功（7,043 字、無重複、無截斷），仍嚴禁分段輸入；fill 失效≠編輯器完全失效，先換 type 再放棄】【2026-10-17：單次 type 再次成功（5,019 字），type 備援二度驗證；同日再增 2 份空草稿待手動刪除（累計 6 份）】【2026-10-18：10-17 文章（5,019 字）當日排程未重試（改寫老福法時事文已發佈），迴路「發布」環節對該文仍斷，時事鉤子已過一日待評估重寫；壞草稿累計 6 份待手動刪除】
+1. **慢錢研究所每日**：exa-search／browser.search 選題（每日 07:00 選題補給排程）→ 寫作 → image-search 封面 → vocus 發布 → social-content-performance 看數據 → 回流選題【2026-10-08 吸收 genspark-claw super-research 輕量版驗證紀律：選題與品質紅線現含「關鍵主張開來源頁確認、關鍵數字兩獨立來源交叉驗證、衝突並陳、不確定標「目前已知」、驗證不過刪掉不寫」；整包未安裝、只取方法論】【2026-10-09：方格子恢復全自動（A 帳號登入狀態正常）】【2026-10-14 更正：編輯器實為 Lexical 非 ProseMirror；fill 回傳 unknown 但實際延遲 1–2 分鐘才生效，驗證為空後補 type＝全文重複兩次（當日連毀 2 稿）。防呆＝只做 1 次 fill 後等待至少 2–3 分鐘再驗證，絕不在驗證為空後補輸入；驗證通過（開頭第一句＋結尾延伸閱讀＋無重複段落）才繼續封面＋發佈；連續 2 次草稿損壞即停手】【2026-10-15 新失敗模式：同樣單次 fill＋等 2–3 分鐘＋重載，內文仍 0 字完全未寫入（兩份全新草稿皆如此）——與 10/14「延遲後重複」不同，兩天兩種模式；重試前要換輸入打法，不要照舊再填】【2026-10-16 備援實證：fill 失效時換「第一份全新草稿＋單次 type 全文」一次成功（7,043 字、無重複、無截斷），仍嚴禁分段輸入；fill 失效≠編輯器完全失效，先換 type 再放棄】【2026-10-17：單次 type 再次成功（5,019 字），type 備援二度驗證；同日再增 2 份空草稿待手動刪除（累計 6 份）】【2026-10-19：10-18／10-19 文章發佈成功（老福法三讀時事文 8,083 字），但封面圖上傳兩次失敗（vocus 上傳對話框未暴露檔案輸入欄位 target_blocked）→「不使用縮圖」公開，迴路封面環節當日斷；壞草稿累計 7 份（10-19 更正，原記 6 份少算 1 份）待手動刪除；10-17 費半文（5,019 字）仍未發佈、時事鉤子已過】
 2. **爆紅影片工廠**：social.search 找爆款 → muse-video 策劃 → tts 配音 → 發布 → 數據回流
 3. **X 經營**：social.search/x-post-reader 找話題 → exa-search 補背景 → 寫文 → 發布
 4. **柴犬圖卡**：文案 → image-search 找參考 → media 生成 → threads 發布 → 數據回流
