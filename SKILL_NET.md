@@ -46,7 +46,7 @@
 
 ### 系統層
 - skill-creator：建新 skill（織網的梭子）
-- openrouter：免費 AI 模型池（:free only，絕不動帳戶餘額；每日 1000 次免費額度）。機械性批量工作（初篩、翻譯、摘要、分類）的便宜算力；主力模型每天約 06:24 由 `openrouter-free-model-scan` 排程掃描更新 `state/free-model.json`（動態路由，不寫死模型 ID）；憑證走 Secure Vault（custom.openrouter），不存原始 key【2026-10-09 新建 skill；使用者立鐵律：只能用免費模型】【2026-10-10 實戰：nemotron 請求掛住逾時、gemma 上游 429 → 每日獵捕初篩改由主模型做，免費池不可用不硬等】【2026-10-11 品質分流：free-model.json 新增 `quality_model`＝nvidia/nemotron-3-ultra-550b-a55b:free——批量機械活走 Lightning 日常主力，要品質時走 quality_model；每日掃描重寫名單時保留既有 quality_model／quality_note 不洗掉（10-12 實測原樣保留）】【2026-10-15：gemma 兩款連續第 7 天上游 429；or_api.py 寫死憑證路徑（templates/skill/bin）已修為現行 bin，不靠 PYTHONPATH 繞道也可跑】【2026-10-16：gemma 兩款連續第 8 天上游 429】【2026-10-19：gemma 兩款多日上游 429，不再重 ping（沿用「不可用」結論）；同日掃描主力仍為 nemotron lightning，ping 回 Pong! 約 2.5 分鐘（較 10-18 的 48 秒變慢）】
+- openrouter：免費 AI 模型池（:free only，絕不動帳戶餘額；每日 1000 次免費額度）。機械性批量工作（初篩、翻譯、摘要、分類）的便宜算力；主力模型每天約 06:24 由 `openrouter-free-model-scan` 排程掃描更新 `state/free-model.json`（動態路由，不寫死模型 ID）；憑證走 Secure Vault（custom.openrouter），不存原始 key【2026-10-09 新建 skill；使用者立鐵律：只能用免費模型】【2026-10-10 實戰：nemotron 請求掛住逾時、gemma 上游 429 → 每日獵捕初篩改由主模型做，免費池不可用不硬等】【2026-10-11 品質分流：free-model.json 新增 `quality_model`＝nvidia/nemotron-3-ultra-550b-a55b:free——批量機械活走 Lightning 日常主力，要品質時走 quality_model；每日掃描重寫名單時保留既有 quality_model／quality_note 不洗掉（10-12 實測原樣保留）】【2026-10-15：gemma 兩款連續第 7 天上游 429；or_api.py 寫死憑證路徑（templates/skill/bin）已修為現行 bin，不靠 PYTHONPATH 繞道也可跑】【2026-10-16：gemma 兩款連續第 8 天上游 429】【2026-10-19：gemma 兩款多日上游 429，不再重 ping（沿用「不可用」結論）；同日掃描主力仍為 nemotron lightning，ping 回 Pong! 約 2.5 分鐘（較 10-18 的 48 秒變慢）】【2026-10-20：10-20 03:00 每日獵捕初篩——免費模型連續第 3 天逾時，改由主模型自行初篩；「免費池不可用不硬等」fallback 再次實證】
 - goals：目標追蹤
 - subscription-status：額度查詢
 - muse-feedback：問題回報
@@ -54,6 +54,8 @@
 ### 觀察中（未安裝，不列邊）
 - agent-reach：給 AI Agent 接網路能力的開源專案；評估中（目錄內尚無 SKILL.md，未 pip install、未完成可用性驗證，不可記成已安裝）。2026-10-07 使用者同意將 AI 工具獵人計畫封存（03:00 每日獵捕排程保留作火種，命中絕不自動安裝）；agent-reach 是否正式納入仍待確認
 - claw-browser-anchor（候選，未安裝）：DOM 錨點瀏覽器自動化方法論；可參考作為 browser.spawn_task 租用 VM 失敗時的備援思路（該缺口 2026-10-03 實測至今無備援，2026-10-09 複查仍無備援）。2026-10-08 深入研究完成，結論＝不建議安裝整包，只吸收方法論：super-research 輕量版驗證紀律已寫入慢錢研究所流程（見迴路#1），DOM 錨點優先／動作後驗證／漂移恢復可作瀏覽器任務規範；安裝本身無額外價值。絕不自動安裝
+- hedit（候選，未安裝）：pycodebr/heditor——創意豎屏影片剪輯 skill（ffmpeg＋HyperFrames、命名風格、逐字字幕）；2026-10-20 每日獵捕命中、安全初檢通過。補缺口：爆紅影片工廠迴路#2／說書影片迴路#7「策劃→配音→成片」中的剪輯環節（現靠外部工具）；待使用者點頭才裝，絕不自動安裝
+- douyin-download-skill（候選，未安裝）：Arekejoker/douyin-download-skill——agent 用抖音無水印下載 skill（含 BGM＋元數據）；2026-10-20 每日獵捕命中、安全初檢通過。注意：裝前需在 VM 掛已登入抖音的 Chrome（掃碼一次）；現 tiktokio.bio 仍可用（影片下載三神器），不急裝。待使用者點頭才裝，絕不自動安裝
 
 ---
 
