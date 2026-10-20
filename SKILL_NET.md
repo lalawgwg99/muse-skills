@@ -46,7 +46,7 @@
 
 ### 系統層
 - skill-creator：建新 skill（織網的梭子）
-- openrouter：免費 AI 模型池（:free only，絕不動帳戶餘額；每日 1000 次免費額度）。機械性批量工作（初篩、翻譯、摘要、分類）的便宜算力；主力模型每天約 06:24 由 `openrouter-free-model-scan` 排程掃描更新 `state/free-model.json`（動態路由，不寫死模型 ID）；憑證走 Secure Vault（custom.openrouter），不存原始 key【2026-10-09 新建 skill；使用者立鐵律：只能用免費模型】【2026-10-10 實戰：nemotron 請求掛住逾時、gemma 上游 429 → 每日獵捕初篩改由主模型做，免費池不可用不硬等】【2026-10-11 品質分流：free-model.json 新增 `quality_model`＝nvidia/nemotron-3-ultra-550b-a55b:free——批量機械活走 Lightning 日常主力，要品質時走 quality_model；每日掃描重寫名單時保留既有 quality_model／quality_note 不洗掉（10-12 實測原樣保留）】【2026-10-15：gemma 兩款連續第 7 天上游 429；or_api.py 寫死憑證路徑（templates/skill/bin）已修為現行 bin，不靠 PYTHONPATH 繞道也可跑】【2026-10-16：gemma 兩款連續第 8 天上游 429】【2026-10-19：gemma 兩款多日上游 429，不再重 ping（沿用「不可用」結論）；同日掃描主力仍為 nemotron lightning，ping 回 Pong! 約 2.5 分鐘（較 10-18 的 48 秒變慢）】【2026-10-20：10-20 03:00 每日獵捕初篩——免費模型連續第 3 天逾時，改由主模型自行初篩；「免費池不可用不硬等」fallback 再次實證】
+- openrouter：免費 AI 模型池（:free only，絕不動帳戶餘額；每日 1000 次免費額度）。機械性批量工作（初篩、翻譯、摘要、分類）的便宜算力；主力模型每天約 06:24 由 `openrouter-free-model-scan` 排程掃描更新 `state/free-model.json`（動態路由，不寫死模型 ID）；憑證走 Secure Vault（custom.openrouter），不存原始 key【2026-10-09 新建 skill；使用者立鐵律：只能用免費模型】【2026-10-10 實戰：nemotron 請求掛住逾時、gemma 上游 429 → 每日獵捕初篩改由主模型做，免費池不可用不硬等】【2026-10-11 品質分流：free-model.json 新增 `quality_model`＝nvidia/nemotron-3-ultra-550b-a55b:free——批量機械活走 Lightning 日常主力，要品質時走 quality_model；每日掃描重寫名單時保留既有 quality_model／quality_note 不洗掉（10-12 實測原樣保留）】【2026-10-15：gemma 兩款連續第 7 天上游 429；or_api.py 寫死憑證路徑（templates/skill/bin）已修為現行 bin，不靠 PYTHONPATH 繞道也可跑】【2026-10-16：gemma 兩款連續第 8 天上游 429】【2026-10-19：gemma 兩款多日上游 429，不再重 ping（沿用「不可用」結論）；同日掃描主力仍為 nemotron lightning，ping 回 Pong! 約 2.5 分鐘（較 10-18 的 48 秒變慢）】【2026-10-20：10-20 03:00 每日獵捕初篩——免費模型連續第 3 天逾時，改由主模型自行初篩；「免費池不可用不硬等」fallback 再次實證】【2026-10-21：nemotron lightning 連續三天逾時後恢復——42 秒完成 5 候選初判，每日獵捕第一層初篩重回免費模型（第二、三層仍親自判定）；「不可用不硬等、可用就用上」雙向實證】
 - goals：目標追蹤
 - subscription-status：額度查詢
 - muse-feedback：問題回報
@@ -56,6 +56,7 @@
 - claw-browser-anchor（候選，未安裝）：DOM 錨點瀏覽器自動化方法論；可參考作為 browser.spawn_task 租用 VM 失敗時的備援思路（該缺口 2026-10-03 實測至今無備援，2026-10-09 複查仍無備援）。2026-10-08 深入研究完成，結論＝不建議安裝整包，只吸收方法論：super-research 輕量版驗證紀律已寫入慢錢研究所流程（見迴路#1），DOM 錨點優先／動作後驗證／漂移恢復可作瀏覽器任務規範；安裝本身無額外價值。絕不自動安裝
 - hedit（候選，未安裝）：pycodebr/heditor——創意豎屏影片剪輯 skill（ffmpeg＋HyperFrames、命名風格、逐字字幕）；2026-10-20 每日獵捕命中、安全初檢通過。補缺口：爆紅影片工廠迴路#2／說書影片迴路#7「策劃→配音→成片」中的剪輯環節（現靠外部工具）；待使用者點頭才裝，絕不自動安裝
 - douyin-download-skill（候選，未安裝）：Arekejoker/douyin-download-skill——agent 用抖音無水印下載 skill（含 BGM＋元數據）；2026-10-20 每日獵捕命中、安全初檢通過。注意：裝前需在 VM 掛已登入抖音的 Chrome（掃碼一次）；現 tiktokio.bio 仍可用（影片下載三神器），不急裝。待使用者點頭才裝，絕不自動安裝
+- 2026-10-21 03:00 每日獵捕（排程 10-19 曾自 cron 清單消失、已按 _archive 完整定義重建，10-20／10-21 連兩次正常執行）：本輪無命中，23 個新候選皆不符三層規則；10-20 兩款命中候選（heditor／douyin-download-skill）仍待使用者點頭，未安裝。掃描來源 10-20 新增 awesome-short-drama-skills 目錄（微短劇 skill 精選；本輪新增 3 項皆為微短劇全流程平台，與現有專案線不相關，不織入）
 
 ---
 
@@ -82,7 +83,7 @@
 
 **資料互補**
 - google-sheets ↔ artifacts：外送資料已遷至 GitHub（private repo 存檔）＋ Cloudflare Pages 網頁給師傅；試算表／GAS 查詢方案 10-04 已棄。google-sheets 連接器自 10-02 由使用者手動斷開、10-10 複查仍斷，不主動重連
-- github → （Cloudflare Pages）：推送即部署，TaiCalc／字研所／shift-fill／外送頁 固定這條【2026-10-08 實戰：外送頁 private repo 推送後 Pages 自動部署成功】【2026-10-20：care-calculator 推送 f4bfb82 成功（tsc 0 error、build 靜態匯出、jest 114 全綠），Pages 自動部署，邊健康】
+- github → （Cloudflare Pages）：推送即部署，TaiCalc／字研所／shift-fill／外送頁 固定這條【2026-10-08 實戰：外送頁 private repo 推送後 Pages 自動部署成功】【2026-10-20：care-calculator 推送 f4bfb82 成功（tsc 0 error、build 靜態匯出、jest 114 全綠），Pages 自動部署，邊健康】【2026-10-21：care-calculator 推送 e6b6e24（tsc／build／jest 114 全綠）→ 遠端 4670e76，Pages 自動部署；P1 住宿式機構補助少算兩類對象同日修好上線，邊健康】
 - github ↔ cloudflare：github 推送管「程式碼→部署」，cloudflare 管「網域→DNS→SSL→上線」；新站流程＝cloudflare 先買網域／掛 Pages 自訂網域＋DNS，再 github 推碼生效【2026-10-07 實戰：carepilot1966.com 經 Registrar 購買＋加到 care-calculator Pages 專案；含個資的頁面走 private repo，不公開原始碼】【2026-10-09 實戰：易問 Worker `iching-api` 正式服務一律配自訂網域路由（proxied DNS `yiwen-api.taicalc.com` → Worker route），不依賴 workers.dev——workers.dev 在本環境回 1042、使用者實機亦 Load failed，改正式網域路由後 POST /divine 端到端成功】
 - cloudflare 錢閘：網域購買、付費操作一律人工決定（2026-10-07 是使用者親自買 carepilot1966.com），skill 只做技術執行
 - google-drive ↔ media-library：大檔案走 drive，常用照片走 media-library
