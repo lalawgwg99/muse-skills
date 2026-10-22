@@ -14,6 +14,7 @@
 - image-search：找圖（封面、參考、靈感）
 - media-library：他自己的照片庫
 - places-search：地點搜尋（店家、座標）
+- reverse-engineer-anything：逆向工程（產物分析）——只有產物、沒有源碼時用：編譯後 bundle、Worker、APK、韌體、ASAR 的功能解釋／版本比對／反編譯【2026-10-21 使用者親自選定方案 A 裝入（`~/workspace/custom-skills/`）：只取 skill 指令 7 檔（SKILL.md＋references 6 份），未跑 setup、未註冊 MCP；VM 目前無 Ghidra/JDK，原生與 Android 深度分析需另備工具鏈。暫不綁固定迴路，QA／維護時按需呼叫（產物行為與源碼對不上、外部二進制檢驗）】
 
 ### 生產層 — 內容製造
 - muse-video：影片前期策劃（分鏡、虛擬劇組）
@@ -70,6 +71,7 @@
 - image-search ↔ media-library：先翻自己的照片庫，沒有才去外網找
 - wide-research ↔ exa-search：要快用 Exa，要深用 wide-research；可先 Exa 掃、再 wide-research 深挖
 - places-search ↔ browser.search：店家資訊先 places，營業時間／評價異常時 browser 交叉
+- reverse-engineer-anything ↔ github：repo 有完整源碼走 github／一般 repo 工具分析，不跑 REA；只有產物（編譯 bundle、Worker、APK、韌體、ASAR）才走 REA。REA 工具不在當前 session（未跑 setup）時先手動分析、不硬裝
 
 **生產互補**
 - muse-video → tts：策劃完直接配音，說書產線固定這條
@@ -113,7 +115,7 @@
 3. **X 經營**：social.search/x-post-reader 找話題 → exa-search 補背景 → 寫文 → 發布
 4. **柴犬圖卡**：文案 → image-search 找參考 → media 生成 → threads 發布 → 數據回流
 5. **外送單**：外送單照片 → 系統字體為準轉錄（手寫版不採用）→ 以店家起點由近到遠排序 → GitHub（private repo，客戶個資頁面不公開）推 index.html → Cloudflare Pages 自動部署給師傅 ＋ LINE 文字版（條列可搜尋、路線導航連結置頂、導航一律座標版、短連結走 da.gd）【版面鎖定：10/5 index.html 為唯一模板，只換資料；2026-10-08 已走新管線實戰成功 8 筆；舊 Muse Space 版本留作備用】
-6. **網站 SEO**：exa-search 長尾關鍵字 → 寫文 → github 推送 → cloudflare（自訂網域／DNS／SSL 上線） → Search Console 數據回流（每週跟他要）
+6. **網站 SEO**：exa-search 長尾關鍵字 → 寫文 → github 推送 → cloudflare（自訂網域／DNS／SSL 上線） → Search Console 數據回流（每週跟他要）【2026-10-23：GSC 登入連續 8 天失效（10-22 遇 Google 帳戶救援本人驗證，代理人無法代過；瀏覽器儲存密碼亦被拒），迴路末段「數據回流」暫靠 10-10 快照＋使用者本人提供；SEO 診斷以公開數據為準；不要再拿儲存密碼反覆嘗試登入（會觸發帳戶救援）】
 7. **說書／短劇影片**：選書 → exa-search 找資料 → muse-video 策劃 → tts 配音 → media.generate_image 分鏡 → ffmpeg 成片 → 發布【2026-10-01 短劇實測驗證此鏈】
 
 ## 織網原則
